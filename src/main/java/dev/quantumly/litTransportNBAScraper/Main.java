@@ -25,13 +25,17 @@ public class Main implements Callable<Integer> {
 
     // In theory I could write this to use not statements but I'm not sure how JSoup would handle it
     Document profileDocument = Jsoup.connect("https://www.basketball-reference.com" + playerProfile).get();
-    var SeasonsRaw = profileDocument.select("[data-stat=\"season\"]").eachText().toArray();
-    var Seasons = Arrays.copyOfRange(SeasonsRaw, 1, SeasonsRaw.length - 1);
 
-    var ThreePARaw = profileDocument.select("[data-stat=\"fg3a_per_g\"]").textNodes().toArray();
-    var ThreePA = Arrays.copyOfRange(ThreePARaw, 1, ThreePARaw.length - 1);
+    var Seasons = extractTableValues(profileDocument, "season");
+    var ThreePA = extractTableValues(profileDocument, "fg3a_per_g");
+
     System.out.println(Seasons[0] + " " + ThreePA[0]);
 
     return 0;
+  }
+
+  private static Object[] extractTableValues(Document document, String stat) {
+    var Raw = document.select("[data-stat=" + stat + "]").eachText().toArray();
+    return Arrays.copyOfRange(Raw, 1, Raw.length - 1);
   }
 }
