@@ -29,7 +29,9 @@ public class Main implements Callable<Integer> {
     var Seasons = extractTableValues(profileDocument, "season");
     var ThreePA = extractTableValues(profileDocument, "fg3a_per_g");
 
-    System.out.println(Seasons[0] + " " + ThreePA[0]);
+    for (int i = 0; i < Seasons.length; i++) {
+      System.out.println(Seasons[i] + " " + ThreePA[i]);
+    }
 
     return 0;
   }
