@@ -34,6 +34,12 @@ public class Main implements Callable<Integer> {
     return 0;
   }
 
+  /**
+   * Extracts the centre values from a specified "data-stat"
+   * @param document The `Document` on which the selection should be performed
+   * @param stat The "data-stat" property that should be checked
+   * @return An array of entries with the total count and header removed
+   */
   private static Object[] extractTableValues(Document document, String stat) {
     var Raw = document.select("[data-stat=" + stat + "]").eachText().toArray();
     return Arrays.copyOfRange(Raw, 1, Raw.length - 1);
