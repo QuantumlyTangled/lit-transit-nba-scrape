@@ -37,6 +37,10 @@ public class Main implements Callable<Integer> {
     return 0;
   }
 
+  public String[] getPlayer() {
+    return player;
+  }
+
   /**
    * Determines a profile page URL from a joined name
    * @param profile The search string from which to determine a profile URL
