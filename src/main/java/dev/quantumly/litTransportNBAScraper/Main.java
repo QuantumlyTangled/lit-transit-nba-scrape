@@ -29,6 +29,8 @@ public class Main implements Callable<Integer> {
     var ThreePA = extractTableValues(profileDocument, "fg3a_per_g");
 
     for (int i = 0; i < Seasons.length; i++) {
+      // TODO: Move the following login into "extractTableValues"
+      if (Seasons[i].toString().contains("season") || Seasons[i].toString().contains("Career")) continue;
       System.out.println(Seasons[i] + " " + ThreePA[i]);
     }
 
@@ -44,6 +46,8 @@ public class Main implements Callable<Integer> {
     Connection initialPlayerProfile = Jsoup.connect("https://www.basketball-reference.com/search/search.fcgi?search=" + profile);
     Response followedUrl = initialPlayerProfile.followRedirects(true).execute();
 
+    // It's better to try and assume that we will be redirected since a potential call to the website is rather costly.
+    // Both in time and in the risk of a potential IP blacklist.
     if (followedUrl.url().toString().contains("?")) {
       Document searchDocument = Jsoup.connect("https://www.basketball-reference.com/search/search.fcgi?search=" + profile).get();
       return "https://www.basketball-reference.com" + searchDocument.select(".search-item-name").first().select("a").first().attr("href");
@@ -57,7 +61,7 @@ public class Main implements Callable<Integer> {
    * @return An array of entries with the total count and header removed
    */
   private static Object[] extractTableValues(Document document, String stat) {
-    var Raw = document.select(":not(tfoot) > [data-stat=" + stat + "]").eachText().toArray();
+    var Raw = document.select("[data-stat=" + stat + "]").eachText().toArray();
     return Arrays.copyOfRange(Raw, 1, Raw.length - 1);
   }
 }

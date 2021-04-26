@@ -9,3 +9,5 @@ $ nba Luka Doncic
 2019-20 8.9
 2020-21 8.3
 ```
+
+*Note: the displayed data is scraped from the "Per Game" table on the players profile.*
