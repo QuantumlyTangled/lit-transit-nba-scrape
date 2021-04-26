@@ -35,6 +35,11 @@ public class Main implements Callable<Integer> {
     return 0;
   }
 
+  /**
+   * Determines a profile page URL from a joined name
+   * @param profile The search string from which to determine a profile URL
+   * @return The final URL to use for scraping a profile page after a potential redirect has been executed
+   */
   private static String getRedirectableSearch(String profile) throws IOException {
     Connection initialPlayerProfile = Jsoup.connect("https://www.basketball-reference.com/search/search.fcgi?search=" + profile);
     Response followedUrl = initialPlayerProfile.followRedirects(true).execute();
@@ -52,7 +57,7 @@ public class Main implements Callable<Integer> {
    * @return An array of entries with the total count and header removed
    */
   private static Object[] extractTableValues(Document document, String stat) {
-    var Raw = document.select("[data-stat=" + stat + "]").eachText().toArray();
+    var Raw = document.select(":not(tfoot) > [data-stat=" + stat + "]").eachText().toArray();
     return Arrays.copyOfRange(Raw, 1, Raw.length - 1);
   }
 }
