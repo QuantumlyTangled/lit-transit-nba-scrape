@@ -1,11 +1,7 @@
 package dev.quantumly.litTransportNBAScraper;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.Locale;
+import java.util.Arrays;
 import java.util.concurrent.Callable;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,21 +20,18 @@ public class Main implements Callable<Integer> {
 
   @Override
   public Integer call() throws IOException, InterruptedException {
-    String surnameIndex = String.valueOf(player[1].charAt(0)).toLowerCase();
-    System.out.println(surnameIndex);
+    Document searchDocument = Jsoup.connect("https://www.basketball-reference.com/search/search.fcgi?search=" + String.join("+", player)).get();
+    String playerProfile = searchDocument.select(".search-item-name").first().select("a").first().attr("href");
 
-    HttpClient client = HttpClient.newHttpClient();
-    HttpRequest request = HttpRequest.newBuilder()
-        .uri(URI.create("https://www.basketball-reference.com/players/" + surnameIndex + "/"))
-        .GET() // GET is default
-        .build();
+    // In theory I could write this to use not statements but I'm not sure how JSoup would handle it
+    Document profileDocument = Jsoup.connect("https://www.basketball-reference.com" + playerProfile).get();
+    var SeasonsRaw = profileDocument.select("[data-stat=\"season\"]").eachText().toArray();
+    var Seasons = Arrays.copyOfRange(SeasonsRaw, 1, SeasonsRaw.length - 1);
 
-    HttpResponse<String> response = client.send(request,
-        HttpResponse.BodyHandlers.ofString());
+    var ThreePARaw = profileDocument.select("[data-stat=\"fg3a_per_g\"]").textNodes().toArray();
+    var ThreePA = Arrays.copyOfRange(ThreePARaw, 1, ThreePARaw.length - 1);
+    System.out.println(Seasons[0] + " " + ThreePA[0]);
 
-    Document doc = Jsoup.parse(response.body());
-
-    System.out.println(response.body());
     return 0;
   }
 }
