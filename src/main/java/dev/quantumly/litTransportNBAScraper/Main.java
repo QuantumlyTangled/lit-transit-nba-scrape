@@ -3,6 +3,8 @@ package dev.quantumly.litTransportNBAScraper;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.concurrent.Callable;
+import org.jsoup.Connection;
+import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import picocli.CommandLine;
@@ -20,11 +22,8 @@ public class Main implements Callable<Integer> {
 
   @Override
   public Integer call() throws IOException, InterruptedException {
-    Document searchDocument = Jsoup.connect("https://www.basketball-reference.com/search/search.fcgi?search=" + String.join("+", player)).get();
-    String playerProfile = searchDocument.select(".search-item-name").first().select("a").first().attr("href");
-
     // In theory I could write this to use not statements but I'm not sure how JSoup would handle it
-    Document profileDocument = Jsoup.connect("https://www.basketball-reference.com" + playerProfile).get();
+    Document profileDocument = Jsoup.connect(getRedirectableSearch(String.join("+", player))).get();
 
     var Seasons = extractTableValues(profileDocument, "season");
     var ThreePA = extractTableValues(profileDocument, "fg3a_per_g");
@@ -34,6 +33,16 @@ public class Main implements Callable<Integer> {
     }
 
     return 0;
+  }
+
+  private static String getRedirectableSearch(String profile) throws IOException {
+    Connection initialPlayerProfile = Jsoup.connect("https://www.basketball-reference.com/search/search.fcgi?search=" + profile);
+    Response followedUrl = initialPlayerProfile.followRedirects(true).execute();
+
+    if (followedUrl.url().toString().contains("?")) {
+      Document searchDocument = Jsoup.connect("https://www.basketball-reference.com/search/search.fcgi?search=" + profile).get();
+      return "https://www.basketball-reference.com" + searchDocument.select(".search-item-name").first().select("a").first().attr("href");
+    } else return followedUrl.url().toString();
   }
 
   /**
