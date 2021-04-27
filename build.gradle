@@ -1,9 +1,16 @@
 plugins {
     id 'java'
+    id 'com.palantir.graal' version '0.7.2'
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+group 'dev.quantumly.litTransportNBAScraper'
+version '1.0'
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'dev.quantumly.litTransportNBAScraper.NBA'
+    }
+}
 
 repositories {
     mavenCentral()
@@ -19,8 +26,22 @@ dependencies {
 
 dependencies {
     implementation('org.jsoup:jsoup:1.13.1')
+    compile('info.picocli:picocli:4.6.1')
     implementation('info.picocli:picocli:4.6.1')
     annotationProcessor('info.picocli:picocli-codegen:4.6.1')
+}
+
+compileJava {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+    options.compilerArgs += ["-Aproject=${project.name}"]
+}
+
+graal {
+    javaVersion '11'
+    mainClass 'dev.quantumly.litTransportNBAScraper.NBA'
+    outputName 'nba'
+    option '-H:EnableURLProtocols=https'
 }
 
 test {
