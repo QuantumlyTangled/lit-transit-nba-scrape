@@ -10,6 +10,6 @@ $ nba Luka Doncic
 2020-21 8.3
 ```
 
-*Note: the displayed data is scraped from the "Per Game" table on the players profile.*
-
-*Note 2: the CLI tries to cover as many edge cases as possible but alas each time I solve one I find another.*
+## Notes
+  * The displayed data is scraped from the "Per Game" table on the players profile.
+  * The CLI tries to cover as many edge cases as possible but alas each time I solve one I find another.
