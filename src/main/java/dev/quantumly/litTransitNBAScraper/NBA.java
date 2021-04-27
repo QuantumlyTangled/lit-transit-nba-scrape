@@ -1,4 +1,4 @@
-package dev.quantumly.litTransportNBAScraper;
+package dev.quantumly.litTransitNBAScraper;
 
 import java.io.IOException;
 import java.util.Arrays;

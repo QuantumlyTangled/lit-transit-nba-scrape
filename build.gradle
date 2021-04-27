@@ -4,12 +4,12 @@ plugins {
     id 'com.palantir.graal' version '0.7.2'
 }
 
-group 'dev.quantumly.litTransportNBAScraper'
+group 'dev.quantumly.litTransitNBAScraper'
 version '1.0'
 
 jar {
     manifest {
-        attributes 'Main-Class': 'dev.quantumly.litTransportNBAScraper.NBA'
+        attributes 'Main-Class': 'dev.quantumly.litTransitNBAScraper.NBA'
     }
 }
 
@@ -37,7 +37,7 @@ compileJava {
 
 graal {
     javaVersion '11'
-    mainClass 'dev.quantumly.litTransportNBAScraper.NBA'
+    mainClass 'dev.quantumly.litTransitNBAScraper.NBA'
     outputName 'nba'
     option '-H:EnableURLProtocols=https'
 }

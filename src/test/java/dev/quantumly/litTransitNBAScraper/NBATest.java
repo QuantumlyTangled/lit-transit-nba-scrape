@@ -1,4 +1,4 @@
-package dev.quantumly.litTransportNBAScraper;
+package dev.quantumly.litTransitNBAScraper;
 
 import static org.junit.jupiter.api.Assertions.*;
 
