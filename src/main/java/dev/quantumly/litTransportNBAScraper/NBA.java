@@ -14,7 +14,7 @@ import picocli.CommandLine.Parameters;
 @Command(name = "nba", mixinStandardHelpOptions = true, version = "1.0.0")
 public class NBA implements Callable<Integer> {
 
-  @Parameters(paramLabel = "PLAYER") public String[] player;
+  @Parameters(paramLabel = "PLAYER") String[] player;
 
   public static void main(String[] args) {
     System.exit(new CommandLine(new NBA()).execute(args));
@@ -25,13 +25,13 @@ public class NBA implements Callable<Integer> {
     // In theory I could write this to use not statements but I'm not sure how JSoup would handle it
     Document profileDocument = Jsoup.connect(getRedirectableSearch(String.join("+", player))).get();
 
+    // After we load the profile into JSoup we look for "[data-stat="season"]" and "[data-stat="fg3a_per_g"]"
+    // Once we select all elements with the property we remove the first entry and filter out any that contains "season" or "Career"
     var Seasons = extractTableValues(profileDocument, "season");
     var ThreePA = extractTableValues(profileDocument, "fg3a_per_g");
 
     for (int i = 0; i < Seasons.length; i++) {
-      // TODO: Move the following login into "extractTableValues"
-      if (Seasons[i].toString().contains("season") || Seasons[i].toString().contains("Career")) continue;
-      System.out.println(Seasons[i] + " " + ThreePA[i]);
+      System.out.printf("Season %s - 3PA %s%n", Seasons[i], ThreePA[i]);
     }
 
     return 0;
@@ -66,6 +66,7 @@ public class NBA implements Callable<Integer> {
    */
   private static Object[] extractTableValues(Document document, String stat) {
     var Raw = document.select("[data-stat=" + stat + "]").eachText().toArray();
-    return Arrays.copyOfRange(Raw, 1, Raw.length - 1);
+    var RawFiltered = Arrays.stream(Raw).filter(e -> !(e.toString().contains("season") || e.toString().contains("Career"))).toArray();
+    return Arrays.copyOfRange(RawFiltered, 1, RawFiltered.length);
   }
 }

@@ -5,9 +5,9 @@ The instructions can be found [here](./LIT%20programming%20task_Java.pdf) though
 
 ```shell
 $ nba Luka Doncic
-2018-19 7.1
-2019-20 8.9
-2020-21 8.3
+Season 2018-19 - 3PA 7.1
+Season 2019-20 - 3PA 8.9
+Season 2020-21 - 3PA 8.3
 ```
 
 ## Notes
