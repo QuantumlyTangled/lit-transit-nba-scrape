@@ -37,6 +37,10 @@ public class NBA implements Callable<Integer> {
     return 0;
   }
 
+  /**
+   * Return the passed player
+   * @return The player which was passed to the command as the main parameter
+   */
   public String[] getPlayer() {
     return player;
   }
