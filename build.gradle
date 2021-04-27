@@ -1,7 +1,6 @@
 plugins {
     id 'java'
     id 'jacoco'
-    id 'com.github.kt3k.coveralls' version '2.12.0'
     id 'com.palantir.graal' version '0.7.2'
 }
 
@@ -48,14 +47,12 @@ graal {
 
 jacocoTestReport {
     reports {
-        xml.enabled = true // coveralls plugin depends on xml format report
-        html.enabled = true
+        xml.enabled true
+        html.enabled false
     }
 }
 
-coveralls {
-    jacocoReportPath 'build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml'
-}
+check.dependsOn jacocoTestReport
 
 test {
     useJUnitPlatform()
