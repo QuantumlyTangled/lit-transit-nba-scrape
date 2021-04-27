@@ -2,15 +2,27 @@ package dev.quantumly.litTransportNBAScraper;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.contrib.java.lang.system.SystemOutRule;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import picocli.CommandLine;
 
 public class NBATest {
 
-  @Rule
-  public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
+  private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+  private final PrintStream originalOut = System.out;
+
+  @BeforeEach
+  public void setStreams() {
+    System.setOut(new PrintStream(out));
+  }
+
+  @AfterEach
+  public void restoreInitialStreams() {
+    System.setOut(originalOut);
+  }
 
   @Test
   public void testBasicNBAParametersPassing() {
@@ -31,9 +43,9 @@ public class NBATest {
     assertEquals(String.join(System.lineSeparator(), new String[] {
         "Season 2018-19 - 3PA 7.1",
         "Season 2019-20 - 3PA 8.9",
-        "Season 2020-21 - 3PA 8.3",
+        "Season 2020-21 - 3PA 8.4",
         ""
-    }), systemOutRule.getLog());
+    }), out.toString());
   }
 
   @Test
@@ -58,7 +70,7 @@ public class NBATest {
         "Season 2018-19 - 3PA 1.5",
         "Season 2019-20 - 3PA 0.7",
         ""
-    }), systemOutRule.getLog());
+    }), out.toString());
   }
 
 }
