@@ -11,5 +11,5 @@ $ nba Luka Doncic
 ```
 
 ## Notes
-  * The displayed data is scraped from the "Per Game" table on the players profile.
-  * The CLI tries to cover as many edge cases as possible but alas each time I solve one I find another.
+* The displayed data is scraped from the "Per Game" table on the players profile.
+* The CLI tries to cover as many edge cases as possible but alas each time I solve one I find another.

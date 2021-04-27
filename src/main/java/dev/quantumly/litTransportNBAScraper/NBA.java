@@ -14,7 +14,7 @@ import picocli.CommandLine.Parameters;
 @Command(name = "nba", mixinStandardHelpOptions = true, version = "1.0.0")
 public class NBA implements Callable<Integer> {
 
-  @Parameters(paramLabel = "PLAYER") String[] player;
+  @Parameters(paramLabel = "PLAYER") public String[] player;
 
   public static void main(String[] args) {
     System.exit(new CommandLine(new NBA()).execute(args));
