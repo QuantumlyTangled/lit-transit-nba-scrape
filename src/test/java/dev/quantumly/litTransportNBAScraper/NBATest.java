@@ -4,15 +4,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import picocli.CommandLine;
 
-public class MainTest {
+public class NBATest {
 
   @Test
   public void testBasicNBAParametersPassing() {
     String[] args = new String[] { "Luka", "Doncic" };
-    Main main = new Main();
-    new CommandLine(main).execute(args);
+    NBA nba = new NBA();
+    new CommandLine(nba).execute(args);
 
-    String[] player = main.getPlayer();
+    String[] player = nba.getPlayer();
     Assertions.assertArrayEquals(player, args);
   }
 

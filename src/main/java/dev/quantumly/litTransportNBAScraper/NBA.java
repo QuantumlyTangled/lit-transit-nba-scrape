@@ -12,12 +12,12 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
 @Command(name = "nba", mixinStandardHelpOptions = true, version = "1.0.0")
-public class Main implements Callable<Integer> {
+public class NBA implements Callable<Integer> {
 
   @Parameters(paramLabel = "PLAYER") String[] player;
 
   public static void main(String[] args) {
-    System.exit(new CommandLine(new Main()).execute(args));
+    System.exit(new CommandLine(new NBA()).execute(args));
   }
 
   @Override
