@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'jacoco'
+    id 'com.github.kt3k.coveralls' version '2.12.0'
     id 'com.palantir.graal' version '0.7.2'
 }
 
@@ -42,6 +44,17 @@ graal {
     mainClass 'dev.quantumly.litTransportNBAScraper.NBA'
     outputName 'nba'
     option '-H:EnableURLProtocols=https'
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true // coveralls plugin depends on xml format report
+        html.enabled = true
+    }
+}
+
+coveralls {
+    jacocoReportPath 'build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml'
 }
 
 test {
